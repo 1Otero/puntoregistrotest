@@ -1,0 +1,126 @@
+<div [@fadeInOut]="dialogAnimationState"
+    class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+    <div class="relative w-full max-w-xl mx-auto my-6">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="px-6 py-3 border-b">
+                <label class="text-lg font-medium">{{message}}</label>
+                <button (click)="close()" class="absolute top-0 right-0 p-2">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <div class="p-6">
+                <form [formGroup]="form" (ngSubmit)="saveTicket()">
+                    <div class="grid grid-cols-1 md:grid-cols-2 md:space-x-2">
+                        <div class="mb-4">
+                            <label class="block mb-1 font-medium text-gray-700">Grupo</label>
+                            <input (keyup)="changeKey1($event)" formControlName="key1" type="text" required maxlength="100"
+                                class="w-full px-3 py-2 text-gray-700 border rounded-lg">
+                            <div *ngIf="form.controls['key1'].touched && form.controls['key1'].invalid">
+                                <p *ngIf="form.controls['key1'].hasError('required')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    Este campo es obligatorio
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-1 font-medium text-gray-700">Código</label>
+                            <input (keyup)="changeKey2($event)" formControlName="key2" type="text" required maxlength="100"
+                                class="w-full px-3 py-2 text-gray-700 border rounded-lg">
+                            <div *ngIf="form.controls['key2'].touched && form.controls['key2'].invalid">
+                                <p *ngIf="form.controls['key2'].hasError('required')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    Este campo es obligatorio
+                                </p>
+                            </div>
+                        </div>
+                        <p *ngIf="showValidateKey1Key2"
+                            class="font-medium text-red-500 text-xs mt-1 ml-1 col-span-2">
+                            El grupo y código ya se encuentran registrados
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 md:space-x-2">
+                        <div class="mb-4">
+                            <label class="block mb-1 font-medium text-gray-700">Descripción</label>
+                            <input formControlName="description" type="text" maxlength="100"
+                                class="w-full px-3 py-2 text-gray-700 border rounded-lg">
+                            <div *ngIf="form.controls['description'].touched && form.controls['description'].invalid">
+                                <p *ngIf="form.controls['description'].hasError('required')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    Este campo es obligatorio
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-1 font-medium text-gray-700">Token</label>
+                            <input formControlName="token" type="number" maxlength="100"
+                                class="w-full px-3 py-2 text-gray-700 border rounded-lg">
+                            <div *ngIf="form.controls['token'].touched && form.controls['token'].invalid">
+                                <p *ngIf="form.controls['token'].hasError('required')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    Este campo es obligatorio
+                                </p>
+                                <p *ngIf="form.controls['token'].hasError('tokenInvalid')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    El token ya se encuentra registrado
+                                </p>
+                                <p *ngIf="form.controls['token'].hasError('tokenEditInvalid')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    El token ya se encuentra registrado
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 md:space-x-2">
+                        <div class="mb-4">
+                            <label class="block mb-1 font-medium text-gray-700">Coeficiente</label>
+                            <input formControlName="coefficient" type="number" required maxlength="100"
+                                class="w-full px-3 py-2 text-gray-700 border rounded-lg">
+                            <div *ngIf="form.controls['coefficient'].touched && form.controls['coefficient'].invalid">
+                                <p *ngIf="form.controls['coefficient'].hasError('required')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    Este campo es obligatorio
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-1 font-medium text-gray-700">Unidades</label>
+                            <input formControlName="units" type="number" required maxlength="100"
+                                class="w-full px-3 py-2 text-gray-700 border rounded-lg">
+                            <div *ngIf="form.controls['units'].touched && form.controls['units'].invalid">
+                                <p *ngIf="form.controls['units'].hasError('required')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    Este campo es obligatorio
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="messageButton=='Editar' && deviceType === 1" class="mb-4">
+                        <label class="block mb-1 font-medium text-gray-700">Control</label>
+                        <input formControlName="control" type="number"
+                            class="w-full px-3 py-2 text-gray-700 border rounded-lg">
+                        <!-- <div *ngIf="form.controls['control'].touched && form.controls['control'].invalid">
+                            <p *ngIf="form.controls['control'].hasError('required')"
+                                class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                Este campo es obligatorio
+                            </p>
+                        </div> -->
+                    </div>
+                    <div *ngIf="messageButton=='Editar'" class="mb-4">
+                        <label class="block mb-1 font-medium text-gray-700">Descripción de cambios</label>
+                        <textarea formControlName="descriptChange" type="text" maxlength="200"
+                            class="w-full px-3 py-2 text-gray-700 border rounded-lg"></textarea>
+                        <div *ngIf="form.controls['descriptChange'].touched && form.controls['descriptChange'].invalid">
+                            <p *ngIf="form.controls['descriptChange'].hasError('required')"
+                                class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                Este campo es obligatorio
+                            </p>
+                        </div>
+                    </div>
+                    <app-button typeBtn="submit" color="blue" [loading]="status === 'loading'">
+                        {{messageButton}} voto
+                    </app-button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

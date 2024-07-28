@@ -1,0 +1,38 @@
+<div class="flex flex-col items-center px-4 md:px-0">
+    <div class="w-full lg:w-9/12">
+        <div class="bg-white rounded-lg">
+            <form [formGroup]="formData">
+                <div class="mb-4 flex items-center">
+                    <label for="codigoQr" class="block w-1/4 text-left mr-4">Código QR:</label>
+                    <input #qrInput formControlName="codigoQr" type="text" id="codigoQr" class="rounded-md border-gray-300 w-3/4 px-4 py-2" autofocus>
+                </div>
+                <div *ngIf="formData.controls['codigoQr'].touched && formData.controls['codigoQr'].invalid">
+                    <p *ngIf="formData.controls['codigoQr'].hasError('required')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo es obligatorio
+                    </p>
+                    <p *ngIf="formData.controls['codigoQr'].hasError('pattern')"
+                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    Formato no válido
+                </p>
+                </div>
+                <div class="flex justify-end text-right space-x-3">
+                    <button (click)="submitForm()" *ngIf="button === 'registro'" [disabled]="status === 'loading'" type="submit"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex disabled:cursor-not-allowed">
+                        <mat-spinner *ngIf="status === 'loading'" diameter="20"></mat-spinner>Consultar
+                    </button>
+                    <button (click)="submitForm()" *ngIf="button === 'salida' && !showButtonCreateUser" [disabled]="status === 'loading'" type="submit"
+                        class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex disabled:cursor-not-allowed">
+                        <mat-spinner *ngIf="status === 'loading'" diameter="20"></mat-spinner>REGISTRAR AUSENCIA
+                    </button>
+                    <button (click)="createUser()" *ngIf="showButtonCreateUser" [disabled]="statusCreate === 'loading'" type="submit"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex disabled:cursor-not-allowed">
+                        <mat-spinner *ngIf="statusCreate === 'loading'" diameter="20"></mat-spinner>Crear usuario
+                    </button>
+                    <button [disabled]="status === 'loading'" (click)="resetFields()" type="submit"
+                        class="px-4 py-2 border rounded-md hover:bg-gray-300 disabled:cursor-not-allowed">Limpiar campos</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

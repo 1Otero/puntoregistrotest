@@ -1,0 +1,10 @@
+<div class="border rounded-3xl my-10 max-w-3xl mx-auto">
+    <mat-tab-group class="rounded-3xl">
+        <mat-tab label="Ingresos">
+            <app-exit-type type="Ingreso" [listTickets]="listTicketsActive"></app-exit-type>
+        </mat-tab>
+        <mat-tab label="Salidas">
+            <app-exit-type type="Salida" [listTickets]="listTicketsInactive"></app-exit-type>
+        </mat-tab>
+    </mat-tab-group>
+</div>

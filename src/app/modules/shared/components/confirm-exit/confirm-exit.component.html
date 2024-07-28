@@ -1,0 +1,20 @@
+<div [@fadeInOut]="dialogAnimationState" class="fixed top-0 inset-x-0 z-50 p-4 flex justify-center items-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-md font-medium mb-4">¿Abandonar página?</h2>
+        <label class="block text-sm font-medium text-gray-700 mb-4">{{message}}, ¿seguro quiere abandonar la página?</label>
+        <div>
+            <ng-container *ngFor="let ticket of tickets">
+                <div class="flex flex-row justify-between mb-4">
+                    <span>{{ticket.ticket.key1}} - {{ticket.ticket.key2}}</span>
+                    <span>{{ticket.ticket.description}}</span>
+                </div>
+            </ng-container>
+        </div>
+        <div class="flex justify-end">
+            <button class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 mr-2"
+                (click)="onDelete()">Salir</button>
+            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                (click)="close()">Cancelar</button>
+        </div>
+    </div>
+</div>

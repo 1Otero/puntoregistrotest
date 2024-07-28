@@ -1,0 +1,87 @@
+<div class="flex flex-col items-center px-4 md:px-0">
+    <div class="w-full lg:w-9/12">
+        <div class="bg-white rounded-lg">
+            <form [formGroup]="formData">
+                <div class="mb-4 flex items-center">
+                    <label for="tipoDocumento" class="block w-1/4 text-left mr-4">Tipo de Documento:</label>
+                    <select formControlName="tipoDocumento" id="tipoDocumento"
+                        class="rounded-md border-gray-300 w-3/4 px-4 py-2">
+                        <option value="1">CC - Cédula de ciudadanía</option>
+                        <option value="2">NIT - NIT</option>
+                        <option value="3">CE - Cédula de extranjería</option>
+                    </select>
+                </div>
+                <div class="mb-4 flex items-center">
+                    <label for="numeroDocumento" class="block w-1/4 text-left mr-4">No. Documento:</label>
+                    <input formControlName="numeroDocumento" type="text" id="numeroDocumento"
+                        class="rounded-md border-gray-300 w-3/4 px-4 py-2" autofocus>
+                </div>
+                <div
+                    *ngIf="formData.controls['numeroDocumento'].touched && formData.controls['numeroDocumento'].invalid">
+                    <p *ngIf="formData.controls['numeroDocumento'].hasError('required')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo es obligatorio
+                    </p>
+                    <p *ngIf="formData.controls['numeroDocumento'].hasError('pattern')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo no permite números
+                    </p>
+                </div>
+                <div class="mb-4 flex items-center">
+                    <label for="apellido" class="block w-1/4 text-left mr-4">Apellido:</label>
+                    <input formControlName="apellido" type="text" id="apellido"
+                        class="rounded-md border-gray-300 w-3/4 px-4 py-2">
+                </div>
+                <div *ngIf="formData.controls['apellido'].touched && formData.controls['apellido'].invalid">
+                    <p *ngIf="formData.controls['apellido'].hasError('required')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo es obligatorio
+                    </p>
+                </div>
+                <div class="mb-4 flex items-center">
+                    <label for="nombre" class="block w-1/4 text-left mr-4">Nombre:</label>
+                    <input formControlName="nombre" type="text" id="nombre"
+                        class="rounded-md border-gray-300 w-3/4 px-4 py-2">
+                </div>
+                <div *ngIf="formData.controls['nombre'].touched && formData.controls['nombre'].invalid">
+                    <p *ngIf="formData.controls['nombre'].hasError('required')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo es obligatorio
+                    </p>
+                </div>
+                <div class="mb-4 flex items-center">
+                    <label for="email" class="block w-1/4 text-left mr-4">Correo electrónico:</label>
+                    <input formControlName="email" type="text" id="email"
+                        class="rounded-md border-gray-300 w-3/4 px-4 py-2">
+                </div>
+                <div *ngIf="formData.controls['email'].touched && formData.controls['email'].invalid">
+                    <p *ngIf="formData.controls['email'].hasError('required')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo es obligatorio
+                    </p>
+                    <p *ngIf="formData.controls['email'].hasError('email')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo debe ser tipo email
+                    </p>
+                </div>
+                <div class="mb-4 flex items-center">
+                    <label for="numero" class="block w-1/4 text-left mr-4">Número de teléfono:</label>
+                    <input formControlName="numero" type="number" id="numero"
+                        class="rounded-md border-gray-300 w-3/4 px-4 py-2">
+                </div>
+                <div *ngIf="formData.controls['numero'].touched && formData.controls['nombre'].invalid">
+                    <p *ngIf="formData.controls['numero'].hasError('required')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo es obligatorio
+                    </p>
+                </div>
+                <div class="flex justify-end text-right space-x-3">
+                    <button (click)="submitForm()" [disabled]="status === 'loading'" type="submit"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex disabled:cursor-not-allowed">
+                        <mat-spinner *ngIf="status === 'loading'" diameter="20"></mat-spinner>Consultar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

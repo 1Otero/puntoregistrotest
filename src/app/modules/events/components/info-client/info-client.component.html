@@ -1,0 +1,32 @@
+<div class="flex flex-col md:flex-row md:justify-between my-1 border-b bg-gray-700 rounded-lg">
+    <div class="flex flex-row items-center space-x-4 m-2">
+        <div class="flex flex-row space-x-3">
+            <div (click)="onBack()" class="cursor-pointer">
+                <mat-icon class="text-white">keyboard_backspace</mat-icon>
+            </div>
+        </div>
+        <span class="text-lg font-medium text-white">CC {{attendant.docId}} -
+            {{attendant.firstName}} {{attendant.lastName}}</span>
+        <div>
+            <button (click)="onEdit()" class="text-white">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="flex flex-row justify-between space-x-20 m-2">
+        <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
+            <div class="flex flex-row space-x-4">
+                <span class="text-white text-lg font-medium">Votos:</span>
+                <span class="text-lg font-medium text-white">{{tickets}}</span>
+            </div>
+            <div class="flex flex-row space-x-4">
+                <span class="text-white text-lg font-medium">Porcentaje:</span>
+                <span class="text-lg font-medium text-white">{{coeficiente.toFixed(5)}}</span>
+            </div>
+            <div class="flex flex-row space-x-4">
+                <span class="text-white text-lg font-medium">Unidades:</span>
+                <span class="text-lg font-medium text-white">{{unidades}}</span>
+            </div>
+        </div>
+    </div>
+</div>

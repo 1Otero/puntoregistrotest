@@ -1,0 +1,31 @@
+<div class="flex flex-col space-y-2">
+    <app-event-info [event]="eventConfig.event"></app-event-info>
+    <mat-stepper orientation="vertical">
+        <mat-step>
+            <ng-template matStepLabel>Step 1</ng-template>
+            <ng-template matStepContent>
+                <div class="mt-2">
+                    <app-step-one></app-step-one>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </ng-template>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Step 2</ng-template>
+            <ng-template matStepContent>
+                <div class="mt-2">
+                    <app-step-two></app-step-two>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </ng-template>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Step 3</ng-template>
+            <div class="mt-2">
+                <app-step-three></app-step-three>
+                <button mat-button matStepperPrevious>Back</button>
+            </div>
+        </mat-step>
+    </mat-stepper>
+</div>

@@ -1,0 +1,81 @@
+<div [@fadeInOut]="dialogAnimationState"
+    class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+    <div class="relative w-full max-w-xl mx-auto my-6">
+        <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-900 dark:text-white dark:border dark:border-gray-300">
+            <div class="px-6 py-3 border-b">
+                <label class="text-lg font-medium">Cambiar asistente</label>
+                <button (click)="close()" class="absolute top-0 right-0 p-2">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <div class="flex flex-row space-x-2 px-6 items-center mt-3">
+                <span class="font-medium text-sm">Tikect:</span>
+                <div class="flex flex-row space-x-2 items-center justify-between">
+                    <span>{{ticket?.key1}} - {{ticket?.key2}}</span>
+                    <span>{{ticket?.description}}</span>
+                </div>
+            </div>
+            <div class="p-6">
+                <form class="" [formGroup]="form" (ngSubmit)="changeUser()">
+                    <div class="mb-4 flex flex-col space-y-2">
+                        <!-- Salida -->
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="flex flex-row space-x-2 items-center">
+                                <mat-icon class="text-red-500">arrow_back</mat-icon>
+                                <span>Salida: {{ attendantPropietario.firstName }} {{ attendantPropietario.lastName
+                                    }}</span>
+                            </div>
+                            <span>Rol: {{ rol }}</span>
+                        </div>
+
+                        <!-- Entrada -->
+                        <div class="grid grid-cols-2 gap-2 items-center">
+                            <div class="flex flex-row space-x-2 items-center">
+                                <mat-icon class="text-green-500">arrow_forward</mat-icon>
+                                <span>Entrada: {{ attendant.firstName }} {{ attendant.lastName }}</span>
+                            </div>
+                            <div class="flex flex-row items-center">
+                                <span>Rol:</span>
+                                <select class="w-full border-none focus:outline-none text-sm" formControlName="rol">
+                                    <ng-container *ngFor="let rol of roles">
+                                        <option [value]="rol.clientRoleId">{{rol.name}}</option>
+                                    </ng-container>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="deviceType === 1" class="mb-4">
+                        <label class="block mb-1 font-medium text-gray-700 dark:text-white">Control</label>
+                        <input formControlName="control" class="w-full px-3 py-2 text-gray-700 border rounded-lg"
+                            type="text" name="" id="">
+                        <div *ngIf="form.controls['control'].touched && form.controls['control'].invalid">
+                            <p *ngIf="form.controls['control'].hasError('required')"
+                                class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                Este campo es obligatorio
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1 font-medium text-gray-700 dark:text-white">Motivo del cambio</label>
+                        <textarea formControlName="decriptChange"
+                            class="w-full px-3 py-2 text-gray-700 border rounded-lg" type="text" name="" id="">
+                        </textarea>
+                        <div *ngIf="form.controls['decriptChange'].touched && form.controls['decriptChange'].invalid">
+                            <p *ngIf="form.controls['decriptChange'].hasError('required')"
+                                class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                Este campo es obligatorio
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-2">
+                        <app-button class="w-full" typeBtn="submit" color="blue"
+                            [loading]="status === 'loading'">Cambiar usuario</app-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

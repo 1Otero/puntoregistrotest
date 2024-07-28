@@ -1,0 +1,90 @@
+<div class="overflow-x-auto border rounded-xl">
+    <table matSort (matSortChange)="sortData($event)" class="min-w-full divide-y divide-gray-200">
+        <thead>
+            <tr>
+                <th mat-sort-header="nombre"
+                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Nombre</th>
+                <th
+                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Fecha</th>
+                <th
+                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Código</th>
+                <th
+                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Usuario administrador</th>
+                <th
+                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Acción</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let event of displayedItems">
+                <td class="px-6 py-4 whitespace-no-wrap">
+                    <button (click)="onEvent(event)">
+                        <span class="hover:text-blue-400 hover:underline">{{event.event.name}}</span>
+                    </button>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap">{{event.event.dateStartEvent | date: 'short' : 'UTC'}}</td>
+                <td class="px-6 py-4 whitespace-no-wrap">{{event.event.codEvent}}</td>
+                <td class="px-6 py-4 whitespace-no-wrap"></td>
+                <td class="px-6 py-4 whitespace-no-wrap">
+                    <button (click)="event.event.isOpen = !event.event.isOpen" cdkOverlayOrigin
+                        #menu="cdkOverlayOrigin">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="menu"
+                        [cdkConnectedOverlayOpen]="event.event.isOpen ? event.event.isOpen : false"
+                        (overlayOutsideClick)="event.event.isOpen = !event.event.isOpen">
+                        <div
+                            class="z-50 my-4 w-60 text-base list-none bg-white rounded-lg divide-y divide-gray-100 shadow border dark:bg-gray-900 dark:text-white">
+                            <div class="flex flex-col">
+                                <button (click)="onEdit(event)" class="text-start hover:bg-gray-300 px-12 py-2">
+                                    Editar
+                                </button>
+                                <button (click)="onPreregister(event)" class="text-start hover:bg-gray-300 px-12 py-2">
+                                    Preregistro
+                                </button>
+                                <button (click)="onPreregisterUser(event)" class="text-start hover:bg-gray-300 px-12 py-2">
+                                    Preregistro usuario
+                                </button>
+                                <button *ngIf="event.event.status === 1" (click)="onClose(event)"
+                                    class="text-start hover:bg-gray-300 px-12 py-2">
+                                    Cerrar
+                                </button>
+                                <button *ngIf="event.event.status === 0" (click)="onActive(event)"
+                                    class="text-start hover:bg-gray-300 px-12 py-2">
+                                    Activar
+                                </button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="flex flex-row justify-between">
+        <div class="grid grid-cols-2 space-x-2 items-center mt-8 px-4">
+          <span>Elementos por página: </span>
+          <mat-select [(value)]="itemsPerPage" (selectionChange)="changePageSize()">
+            <mat-option color="primary" *ngFor="let option of pageSizeOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </div>
+        <div class="flex justify-end items-center mt-8">
+          <button
+            class="bg-transparent hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-l focus:outline-none"
+            (click)="prevPage()" [disabled]="currentPage === 1">
+            Anterior
+          </button>
+          <span class="px-4">Página {{ currentPage }} de {{ totalPages }} - Total: {{ eventsFilter.length }}</span>
+          <button
+            class="bg-transparent hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-r focus:outline-none"
+            (click)="nextPage()" [disabled]="currentPage === totalPages">
+            Siguiente
+          </button>
+        </div>
+      </div>
+</div>

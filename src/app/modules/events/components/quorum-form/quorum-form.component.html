@@ -1,0 +1,33 @@
+<div class="flex flex-col items-center px-4 md:px-0">
+    <div class="w-full lg:w-9/12">
+        <div class="bg-white rounded-lg">
+            <form [formGroup]="formData">
+                <div class="mb-4 flex items-center">
+                    <label for="control" class="block w-1/4 text-left mr-4">Número de control:</label>
+                    <input #controlInput formControlName="control" type="text" id="control"
+                        class="rounded-md border-gray-300 w-3/4 px-4 py-2" autofocus>
+                </div>
+                <div *ngIf="formData.controls['control'].touched && formData.controls['control'].invalid">
+                    <p *ngIf="formData.controls['control'].hasError('required')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo es obligatorio
+                    </p>
+                    <p *ngIf="formData.controls['control'].hasError('pattern')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo solo permite números
+                    </p>
+                </div>
+                <div class="flex justify-end text-right space-x-3">
+                    <button (click)="submitForm()" [disabled]="status === 'loading'" type="submit"
+                        class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex disabled:cursor-not-allowed">
+                        <mat-spinner *ngIf="status === 'loading'" diameter="20"></mat-spinner>REGISTRAR AUSENCIA
+                    </button>
+
+                    <button [disabled]="status === 'loading'" (click)="resetFields()" type="submit"
+                        class="px-4 py-2 border rounded-md hover:bg-gray-300 disabled:cursor-not-allowed">Limpiar
+                        campos</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

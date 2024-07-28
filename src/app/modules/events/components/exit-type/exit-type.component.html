@@ -1,0 +1,66 @@
+<div class="flex flex-col space-y-4">
+    <div *ngIf="listTickets.length !== 0" class="overflow-x-auto border rounded-xl">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+                <tr>
+                    <th [class.bg-green-100]="type ==='Ingreso'" [class.bg-red-100]="type ==='Salida'"
+                        class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                        Key</th>
+                    <th [class.bg-green-100]="type ==='Ingreso'" [class.bg-red-100]="type ==='Salida'"
+                        class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                        Identificador</th>
+                    <th [class.bg-green-100]="type ==='Ingreso'" [class.bg-red-100]="type ==='Salida'"
+                        class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                        Nombre</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let ticket of displayedItems">
+                    <td [class.bg-green-50]="type ==='Ingreso'" [class.bg-red-50]="type ==='Salida'"
+                        class="px-6 py-4 whitespace-no-wrap">{{ ticket.key1}} - {{ticket.key2}}
+                    </td>
+                    <td [class.bg-green-50]="type ==='Ingreso'" [class.bg-red-50]="type ==='Salida'"
+                        class="px-6 py-4 whitespace-no-wrap">{{ ticket.typeDocument === 1 ? 'CC' : (ticket.typeDocument
+                        === 1 ? 'NIT' : 'CE')}} {{ticket.document}}
+                    </td>
+                    <td [class.bg-green-50]="type ==='Ingreso'" [class.bg-red-50]="type ==='Salida'"
+                        class="px-6 py-4 whitespace-no-wrap">{{ ticket.name}} - {{ticket.lastName}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div [class.bg-green-50]="type ==='Ingreso'" [class.bg-red-50]="type ==='Salida'"
+            class="flex flex-row justify-between items-center">
+            <div class="grid grid-cols-2 space-x-2 items-center mt-4 px-4">
+                <span>Elementos por página: </span>
+                <select 
+                [class.bg-green-50]="type ==='Ingreso'" [class.bg-red-50]="type ==='Salida'"
+                class="py-1 border-none rounded-3xl" [(ngModel)]="itemsPerPage" (change)="changePageSize()">
+                    <option *ngFor="let option of pageSizeOptions" [value]="option">
+                        {{ option }}
+                    </option>
+                </select>
+            </div>
+            <div class="flex justify-end items-center mt-4">
+                <button
+                    class="bg-transparent hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-l focus:outline-none"
+                    (click)="prevPage()" [disabled]="currentPage === 1">
+                    Anterior
+                </button>
+                <span class="px-4">Página {{ currentPage }} de {{ totalPages }} - Total: {{ listTickets.length
+                    }}</span>
+                <button
+                    class="bg-transparent hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-r focus:outline-none"
+                    (click)="nextPage()" [disabled]="currentPage === totalPages">
+                    Siguiente
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="flex items-center justify-center py-14" *ngIf="listTickets.length === 0 && type === 'Ingreso'">
+        <span>No se encuentran tickets ingresados</span>
+    </div>
+    <div class="flex items-center justify-center py-14" *ngIf="listTickets.length === 0 && type === 'Salida'">
+        <span>No se encuentran tickets con salidas</span>
+    </div>
+</div>

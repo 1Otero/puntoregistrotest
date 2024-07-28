@@ -1,0 +1,18 @@
+::ng-deep .icono-personalizado.mat-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden1 {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, max-height 0.3s ease 0s;
+}
+
+.visible1 {
+    opacity: 1;
+    max-height: 1000px;
+    transition: opacity 0.3s ease, max-height 0.3s ease 0s;
+}

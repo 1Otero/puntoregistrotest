@@ -1,0 +1,24 @@
+<div>
+    <form [formGroup]="form" novalidate class="" (ngSubmit)="register()">
+        <span class="text-black text-center flex justify-center items-center">Comprueba tu email, hemos enviado un correo con el código de verificación a
+            {{email}}</span>
+        <div class="relative z-0 w-full mb-5 group mt-2">
+            <input formControlName="token" type="text" name="token" id="token"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required />
+            <label for="floating_email"
+                class="peer-focus:font-medium absolute text-lg text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                Token
+            </label>
+            <div *ngIf="form.controls.token.touched && form.controls.token.invalid">
+                <p *ngIf="form.controls.token.hasError('required')" class="mt-2 text-sm text-red-600">
+                    Este campo es obligatorio
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <app-button class="font-medium" typeBtn="submit" color="blue" [loading]="status === 'loading'">Confirmar</app-button>
+        </div>
+    </form>
+</div>

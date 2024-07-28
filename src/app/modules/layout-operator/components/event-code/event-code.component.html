@@ -1,0 +1,30 @@
+<div class="flex flex-col space-y-4 items-center justify-center py-44 px-4 md:px-0">
+    <div class="flex flex-col md:flex-row justify-between rounded-3xl border bg-blue-500 w-full lg:w-1/2">
+        <div class="flex items-center justify-center lg:ml-8 my-2 lg:my-0">
+            <span class="text-gray-100 text-3xl font-bold">Código del evento</span>
+        </div>
+        <div class="mx-4 my-2 rounded-3xl bg-white">
+            <form class="p-2" [formGroup]="form" (ngSubmit)="ingress()">
+                <div class="flex flex-row justify-between items-center space-x-4">
+                    <input formControlName="code" type="text" name="code" id="code" class="border-none rounded-3xl"
+                        placeholder="# Ingrese el código aquí" required />
+
+                    <button [disabled]="status === 'loading'" type="submit"
+                        class="flex rounded-full w-8 h-8 border border-blue-500 items-center justify-center">
+                        <mat-icon *ngIf="status !== 'loading'">arrow_right_alt</mat-icon>
+                        <mat-spinner [diameter]="20" *ngIf="status === 'loading'"></mat-spinner>
+                    </button>
+                </div>
+                <div *ngIf="form.controls.code.touched && form.controls.code.invalid">
+                    <p *ngIf="form.controls.code.hasError('required')" class="mt-2 pl-3 text-sm text-red-600">
+                        Este campo es obligatorio
+                    </p>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="text-center">
+        <p class="text-2xl text-gray-500 font-bold mb-4"> Ingresa el código del evento para ingresar a punto de registro</p>
+    </div>
+</div>

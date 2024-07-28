@@ -1,0 +1,131 @@
+<!-- <app-spinner *ngIf="status === 'loading'"></app-spinner> -->
+<div class="bg-white rounded-lg py-6">
+    <div class="mb-6">
+        <div class="flex flex-col sm:flex-row items-center w-full justify-between mb-4">
+            <div class="flex items-center space-x-2 mb-2 sm:mb-0">
+                <div>
+                    <span>Coeficiente base de datos: {{coeficiente | percent}}</span>
+                </div>
+                <div class="flex flex-row items-center text-blue-500 space-x-2">
+                    <mat-icon>download</mat-icon>
+                    <a [href]="href" target="_blank" class="underline">Descargar</a>
+                </div>
+            </div>
+    
+            <div class="flex flex-col sm:flex-row  items-center justify-between space-y-2 sm:space-y-0 space-x-4">
+                <label for="filtro" class="text-gray-600">Filtrar por:</label>
+                <select [(ngModel)]="searchKeySelect" id="filtro" class="border p-2 rounded-md w-full sm:w-1/2">
+                    <option value="0">Todos</option>
+                    <option value="1">Key 1</option>
+                    <option value="2">Key 2</option>
+                    <option value="3">Descripción</option>
+                    <option value="4">Coeficiente</option>
+                    <option value="5">Unidades</option>
+                    <option value="6">Estado</option>
+                </select>
+                <div class="relative w-full border rounded-md">
+                    <input [(ngModel)]="searchKeyWrite" (keyup)="applyFilter()" type="text" placeholder="Buscar..."
+                        class="focus:outline-none pl-2 py-2 pr-12 w-full sm:w-96 rounded-md">
+                    <div class="absolute top-0 right-0 px-3 py-2">
+                        <svg aria-hidden="true" class="w-5 h-5 text-black" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex flex-col w-full items-center sm:items-stretch">
+                    <button (click)="onCreate()"
+                        class="h-full w-full px-4 py-1 bg-blue-500 text-white rounded-lg">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div *ngIf="status !== 'loading'" class="overflow-x-auto">
+        <table mat-table [dataSource]="listData" matSort class="min-w-full bg-white border rounded-lg">
+            <ng-container matColumnDef="key1">
+                <th class="text-left py-2 px-3" mat-header-cell mat-sort-header *matHeaderCellDef>Key 1</th>
+                <td class="py-2 px-3" mat-cell *matCellDef="let row">{{row.ticket.key1}}</td>
+            </ng-container>
+            <ng-container matColumnDef="key2">
+                <th class="text-left py-2 px-3" mat-header-cell mat-sort-header *matHeaderCellDef>Key 2</th>
+                <td class="py-2 px-3" mat-cell *matCellDef="let row">{{row.ticket.key2}}</td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+                <th class="text-left py-2 px-3" mat-header-cell mat-sort-header *matHeaderCellDef>Descripción</th>
+                <td class="py-2 px-3" mat-cell *matCellDef="let row">{{row.ticket.description}}</td>
+            </ng-container>
+            <ng-container matColumnDef="coefficient">
+                <th class="text-left py-2 px-3" mat-header-cell mat-sort-header *matHeaderCellDef>Coeficiente</th>
+                <td class="py-2 px-3" mat-cell *matCellDef="let row">{{row.ticket.coefficient}}</td>
+            </ng-container>
+            <ng-container matColumnDef="units">
+                <th class="text-left py-2 px-3" mat-header-cell mat-sort-header *matHeaderCellDef>Unidades</th>
+                <td class="py-2 px-3" mat-cell *matCellDef="let row">{{row.ticket.units}}</td>
+            </ng-container>
+            <ng-container matColumnDef="groupId">
+                <th class="text-left py-2 px-3" mat-header-cell mat-sort-header *matHeaderCellDef>Grupo</th>
+                <td class="py-2 px-3" mat-cell *matCellDef="let row">
+                <div class="flex flex-col">
+                    <ng-container *ngFor="let group of row.ticket.groupId?.split(',')">
+                        <p>{{group}}</p>
+                    </ng-container>
+                </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="token">
+                <th class="text-left py-2 px-3" mat-header-cell mat-sort-header *matHeaderCellDef>Token</th>
+                <td class="py-2 px-3" mat-cell *matCellDef="let row">{{row.ticket.token}}</td>
+            </ng-container>
+            <ng-container matColumnDef="active">
+                <th class="text-left py-2 px-3" mat-header-cell mat-sort-header *matHeaderCellDef>Estado</th>
+                <td class="py-2 px-3" mat-cell *matCellDef="let row">{{row.ticket.active?'Activo':'Inactivo'}}</td>
+            </ng-container>
+            <ng-container matColumnDef="users">
+                <th class="text-left py-2 px-3" mat-header-cell mat-sort-header *matHeaderCellDef>Usuarios</th>
+                <td class="py-2 px-3" mat-cell *matCellDef="let row">
+                    <div class="flex flex-col">
+                        <app-card-usuario
+                        [users]="row.ticketUsersByTicketWithRol"></app-card-usuario>
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th class="text-left py-2 px-3" mat-header-cell *matHeaderCellDef></th>
+                <td class="py-2 px-3" mat-cell *matCellDef="let row">
+                    <div>
+                        <button (click)="row.isOpen = !row.isOpen" cdkOverlayOrigin #menu="cdkOverlayOrigin">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                    </div>
+                    <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="menu"
+                        [cdkConnectedOverlayOpen]="row.isOpen" (overlayOutsideClick)="row.isOpen = !row.isOpen">
+                        <div
+                            class="z-50 my-4 w-full text-base list-none bg-white rounded-lg divide-y divide-gray-100 shadow border">
+                            <div class="flex flex-col">
+                                <button (click)="onEdit(row.ticket)" class="text-start hover:bg-gray-300 px-4 py-2">
+                                    Editar
+                                </button>
+                                <button (click)="onDelete(row.ticket.ticketId)" class="text-start hover:bg-gray-300 px-4 py-2">
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </td>
+            </ng-container>
+            <tr class="border-t border-b bg-gray-100" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr class="border-t border-b bg-gray-100" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="100" showFirstLastButtons></mat-paginator>
+    </div>
+
+    <div class="flex items-center justify-center text-center w-full"
+     *ngIf="status === 'loading'">
+        <mat-spinner diameter="150"></mat-spinner>
+    </div>
+</div>

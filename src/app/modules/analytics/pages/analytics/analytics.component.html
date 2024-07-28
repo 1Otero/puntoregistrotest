@@ -1,0 +1,91 @@
+<app-spinner *ngIf="status === 'loading'"></app-spinner>
+<div class="grid grid-cols-1 gap-6 pb-4 mx-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="col-span-2 border rounded-lg shadow-md">
+            <div class="flex flex-row justify-between space-x-2 p-2">
+                <button [class.text-white]="typeQuorum === 1" class="border px-4 py-2 rounded w-full"
+                    [class.bg-blue-500]="typeQuorum === 1" (click)="typeQuorum = 1">Coeficiente</button>
+                <button [class.text-white]="typeQuorum === 2" class="border px-4 py-2 rounded w-full"
+                    [class.bg-blue-500]="typeQuorum === 2" (click)="typeQuorum = 2">Unidades</button>
+            </div>
+            <a [href]="href" target="_blank" class="px-2 hover:underline hover:text-blue-500">Reporte de asistencia</a>
+            <div class="flex flex-row">
+                <div>
+                    <mat-radio-group class="flex flex-col" color="primary" [(ngModel)]="typeTime">
+                        <mat-radio-button class="example-radio-button" [value]="3">
+                            Hora
+                        </mat-radio-button>
+                        <mat-radio-button class="example-radio-button" [value]="2">
+                            Media hora
+                        </mat-radio-button>
+                        <mat-radio-button class="example-radio-button" [value]="1">
+                            Minuto
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="w-full">
+                    <app-chart-line [typeTime]="typeTime" *ngIf="typeQuorum === 1"
+                        [data]="chartInfoQuorum"></app-chart-line>
+                    <app-chart-line [typeTime]="typeTime" *ngIf="typeQuorum === 2" [data]="chartInfoQuorum"
+                        type="U"></app-chart-line>
+
+                    <!-- <app-chart-area [typeTime]="typeTime" *ngIf="typeQuorum === 1"
+                        [data]="chartInfoQuorum"></app-chart-area>
+                    <app-chart-area [typeTime]="typeTime" *ngIf="typeQuorum === 2" [data]="chartInfoQuorum"
+                        type="U"></app-chart-area> -->
+                </div>
+            </div>
+        </div>
+        <div class="border rounded-lg shadow-md">
+            <div class="p-8 h-full">
+                <div class="grid grid-cols-2 gap-4 h-64">
+                    <div class="max-w-full rounded-lg border">
+                        <div class="flex flex-col items-center justify-center">
+                            <span class="mb-2 text-lg font-medium">Disponibles</span>
+                            <span class="font-medium text-3xl">{{totalEstadoDisponible}}</span>
+                        </div>
+                    </div>
+                    <div class="max-w-full rounded-lg border">
+                        <div class="flex flex-col items-center justify-center">
+                            <span class="mb-2 text-lg font-medium">En uso</span>
+                            <span class="font-medium text-3xl">{{totalEstadoEnUso}}</span>
+                        </div>
+                    </div>
+                    <div class="max-w-full rounded-lg border">
+                        <div class="flex flex-col items-center justify-center">
+                            <span class="mb-2 text-lg font-medium">Devueltos</span>
+                            <span class="font-medium text-3xl">{{totalEstadoDevueltos}}</span>
+                        </div>
+                    </div>
+                    <div class="max-w-full rounded-lg border">
+                        <div class="flex flex-col items-center justify-center">
+                            <span class="mb-2 text-lg font-medium">Dañados</span>
+                            <span class="font-medium text-3xl">{{totalEstadoMalos}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-2 pt-4">
+                    <div *ngIf="isAdmin" class="grid grid-cols-2 gap-3">
+                        <button (click)="updateControls()"
+                            class="border bg-blue-500 text-white font-medium rounded-lg w-full py-2">Disponer
+                            controles</button>
+                        <button (click)="endEvent()" class="border bg-blue-500 text-white font-medium rounded-lg w-full py-2">
+                            Finalizar evento
+                        </button>
+                    </div>
+                    <!-- <a class="hover:text-blue-500 hover:underline border rounded-lg w-full p-2 text-center"
+                        routerLink="control" target="_blank" [queryParams]="{ eventCode: eventCode }">Inventario de
+                        controles</a> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="border rounded-lg shadow-md">
+            <app-chart-colum-admin [chartAdmin]="chartAdmin"></app-chart-colum-admin>
+        </div>
+        <div class="border rounded-lg shadow-md col-span-2 overflow-y-auto h-96">
+            <app-audit [listAudit]="listAudit"></app-audit>
+        </div>
+    </div>

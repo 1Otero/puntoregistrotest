@@ -1,0 +1,146 @@
+<div class="">
+    <div>
+        <div class="mb-4">
+            <div class="flex md:flex-row flex-col space-y-2 md:space-y-0 justify-between items-center md:space-x-2">
+                <div class="flex items-center">
+                    <span class="mr-2">Filtrar por:</span>
+                    <select [(ngModel)]="typeFilter"
+                        class="py-2 px-4 border-none rounded-md text-sm focus:outline-none bg-transparent">
+                        <option value="0">Todos</option>
+                        <option value="1">Identificador</option>
+                        <option value="2">Nombre</option>
+                        <option value="3">Número de teléfono</option>
+                        <option value="4">Correo</option>
+                    </select>
+                </div>
+                <input (keyup)="updateDisplayedItems()" [(ngModel)]="writeFilter" type="text" placeholder="Buscar..."
+                    class="py-1.5 px-4 border-b w-full border-gray-300 focus:outline-none focus:border-blue-500 flex-grow rounded-md">
+                <button (click)="isOpen = !isOpen" cdkOverlayOrigin #menu="cdkOverlayOrigin"
+                    class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md ml-4">
+                    Crear
+                </button>
+            </div>
+        </div>
+        <div class="flex py-3">
+            <a [href]="url" class="flex flex-row space-x-1 items-center">
+                <mat-icon class="icono-personalizado text-lg">download</mat-icon>
+                <span>Exportar</span>
+            </a>
+        </div>
+        <div *ngIf="status !== 'loading' && listAssistant.length !== 0" class="overflow-x-auto border rounded-xl">
+            <table matSort (matSortChange)="sortData($event)" class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr>
+                        <th mat-sort-header="doc"
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Identificador
+                        </th>
+                        <th mat-sort-header="nombre"
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Nombre</th>
+                        <th mat-sort-header="telefono"
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Número de teléfono</th>
+                        <th mat-sort-header="correo"
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Correo electrónico</th>
+                        <th
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Tickets</th>
+                        <th
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Estado</th>
+                        <th
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Acción</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr *ngFor="let user of displayedItems">
+                        <td class="px-6 py-4 whitespace-no-wrap">{{user.userAssistant.idTypeDoc === 1 ? 'CC' : 'NIT'}}
+                            {{user.userAssistant.docId}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap">{{user.userAssistant.firstName}}
+                            {{user.userAssistant.lastName}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap">{{user.userAssistant.phoneNumber}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap">{{user.userAssistant.email}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            <button (click)="onTickets(user.ticketsByUserWithRole)"
+                                class="hover:text-blue-500 hover:underline">
+                                {{user.ticketsByUserWithRole.length}}
+                            </button>
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap">{{user.accessPointUser ? (user.accessPointUser.status
+                            === 1 ? 'Ingresado' : 'Ausente') : 'Creado'}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            <button (click)="user.isOpen = !user.isOpen" cdkOverlayOrigin #menu="cdkOverlayOrigin">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="menu"
+                                [cdkConnectedOverlayOpen]="user.isOpen ? user.isOpen : false"
+                                (overlayOutsideClick)="user.isOpen = !user.isOpen">
+                                <div
+                                    class="z-50 my-4 w-60 text-base list-none bg-white rounded-lg divide-y divide-gray-100 shadow border dark:bg-gray-900 dark:text-white">
+                                    <div class="flex flex-col">
+                                        <button (click)="onEdit(user.userAssistant)"
+                                            class="text-start hover:bg-gray-300 px-4 py-2 dark:hover:bg-gray-700">
+                                            Editar
+                                        </button>
+                                        <button (click)="onDelete(user.userAssistant)"
+                                            class="text-start hover:bg-gray-300 px-4 py-2 dark:hover:bg-gray-700">
+                                            Eliminar
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="flex flex-row justify-between">
+                <div class="grid grid-cols-2 space-x-2 items-center mt-8 px-4">
+                    <span>Elementos por página: </span>
+                    <mat-select [(value)]="itemsPerPage" (selectionChange)="changePageSize()">
+                        <mat-option color="primary" *ngFor="let option of pageSizeOptions" [value]="option">
+                            {{ option }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <div class="flex justify-end items-center mt-8">
+                    <button
+                        class="bg-transparent hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-l focus:outline-none"
+                        (click)="prevPage()" [disabled]="currentPage === 1">
+                        Anterior
+                    </button>
+                    <span class="px-4">Página {{ currentPage }} de {{ totalPages }} - Total: {{ listAssistant.length
+                        }}</span>
+                    <button
+                        class="bg-transparent hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-r focus:outline-none"
+                        (click)="nextPage()" [disabled]="currentPage === totalPages">
+                        Siguiente
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-center items-center" *ngIf="status === 'loading' && listAssistant.length === 0">
+            <mat-spinner></mat-spinner>
+        </div>
+        <div class="flex justify-center items-center" *ngIf="status !== 'loading' && listAssistant.length === 0">
+            <app-no-data title="No hay información disponible"></app-no-data>
+        </div>
+    </div>
+</div>
+
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="menu" [cdkConnectedOverlayOpen]="isOpen ? isOpen : false"
+    (overlayOutsideClick)="isOpen = !isOpen">
+    <div
+        class="z-50 my-4 w-60 text-base list-none bg-white rounded-lg divide-y divide-gray-100 shadow border dark:bg-gray-900 dark:text-white">
+        <div class="flex flex-col">
+            <button (click)="onCreate()" class="text-start hover:bg-gray-300 px-4 py-2">
+                Añadir asistente
+            </button>
+            <button (click)="chargeAssistant()" class="text-start hover:bg-gray-300 px-4 py-2">
+                Cargar asistentes
+            </button>
+        </div>
+    </div>
+</ng-template>

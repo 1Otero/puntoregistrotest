@@ -1,0 +1,46 @@
+<div [@fadeInOut]="dialogAnimationState"
+    class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+    <div class="relative w-full max-w-xl mx-auto my-6">
+        <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-900 dark:text-white dark:border dark:border-gray-300">
+            <div class="px-6 py-3 border-b">
+                <label class="text-lg font-medium">Asignar control</label>
+                <button (click)="close()" class="absolute top-0 right-0 p-2">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <div class="p-6">
+                <form class="" [formGroup]="form" (ngSubmit)="saveControl()">
+
+                    <div class="mb-4">
+                        <label class="block mb-1 font-medium text-gray-700 dark:text-white">Control</label>
+                        <input formControlName="control" class="w-full px-3 py-2 text-gray-700 border rounded-lg" type="text" name="" id="">
+                        <div
+                            *ngIf="form.controls.control.touched && form.controls.control.invalid">
+                            <p *ngIf="form.controls.control.hasError('required')"
+                                class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                Este campo es obligatorio
+                            </p>
+                        </div>
+                    </div>
+                    <div *ngIf="!isSave" class="mb-4">
+                        <label class="block mb-1 font-bold text-gray-700 dark:text-white">Motivo cambio</label>
+                        <textarea formControlName="cambio" class="w-full px-3 py-2 text-gray-700 border rounded-lg" type="text" name="" id="">
+                        </textarea>
+                        <div
+                            *ngIf="form.controls.cambio.touched && form.controls.cambio.invalid">
+                            <p *ngIf="form.controls.cambio.hasError('required')"
+                                class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                Este campo es obligatorio
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <app-button class="w-full" typeBtn="submit" color="blue"
+                            [loading]="status === 'loading'">Asignar</app-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

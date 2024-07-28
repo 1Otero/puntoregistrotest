@@ -1,0 +1,9 @@
+<div>
+    <ng-container *ngFor="let ticket of tickets">
+        <div class="flex flex-col">
+            <label for="">{{ticket.rol}} - {{ticket.ticket.key1}} - {{ticket.ticket.key2}}
+            </label>
+            <label>{{ticket.ticket.description}}</label>
+        </div>
+    </ng-container>
+</div>

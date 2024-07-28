@@ -1,0 +1,47 @@
+<div [@fadeInOut]="dialogAnimationState"
+    class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+    <div class="relative w-full max-w-3xl mx-auto my-6">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="px-6 py-3 border-b">
+                <label class="text-lg font-medium">Controles faltantes</label>
+                <button (click)="close()" class="absolute top-0 right-0 p-2">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <div *ngIf="controls.length !== 0" class="h-80 overflow-y-auto border rounded-3xl m-2">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Control
+                            </th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Identificador
+                            </th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Nombres</th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Teléfono</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr *ngFor="let control of controls">
+                            <td class="px-6 py-4 whitespace-no-wrap">{{control.control.barCode}}
+                            </td>
+                            <td class="px-6 py-4 whitespace-no-wrap">{{infoDoc(control)}}</td>
+                            <td class="px-6 py-4 whitespace-no-wrap">{{infoName(control)}}</td>
+                            <td class="px-6 py-4 whitespace-no-wrap">{{infoPhone(control)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="controls.length === 0">
+                    <app-no-data title="No hay información registrada"></app-no-data>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="flex flex-col">
+    <div class="flex flex-row justify-start">
+        <div (click)="onBack()" class="cursor-pointer flex flex-row items-center space-x-2 text-lg font-medium">
+            <mat-icon class="">keyboard_backspace</mat-icon>
+            <span>Volver</span>
+        </div>
+    </div>
+    <div class="flex flex-col">
+        <div *ngIf="isAdmin" class="md:w-1/2 px-8 mx-auto">
+            <div class="bg-white rounded-lg p-8 text-center">
+                <p class="text-3xl font-bold text-gray-900 mb-4">¡Atención!</p>
+                <p class="text-lg text-gray-700 mb-6">El evento <span
+                        class="text-black font-medium">{{eventConfig.event.name}}</span> no ha sido configurado.</p>
+            </div>
+        </div>
+        <div *ngIf="!isAdmin" class="p-8 mx-auto">
+            <div class="bg-white rounded-lg p-8 text-center">
+                <p class="text-3xl font-bold text-gray-900 mb-4">¡Atención!</p>
+                <p class="text-lg text-gray-700 mb-6">El evento <span
+                        class="text-black font-medium">{{eventConfig.event.name}}</span> no ha sido configurado.</p>
+                <p class="text-base text-gray-600 mb-6">Por favor, comunícate con el moderador más cercano.</p>
+            </div>
+        </div>
+        <div class="w-full px-8 mx-auto">
+            <div *ngIf="!isAdmin">
+                <app-no-data title="No se encuentra la configuración"></app-no-data>
+            </div>
+            <ng-container *ngIf="isAdmin">
+                <div class="bg-gray-800 text-white text-lg font-semibold px-6 py-2 mb-4">
+                    Configuración
+                </div>
+                <div class="bg-white rounded-lg">
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 border-b">
+                          <div class="mb-6">
+                            <h2 class="text-gray-700 font-semibold mb-2">Evento</h2>
+                            <mat-radio-group color="primary" formControlName="tipoEvento">
+                              <mat-radio-button value="0">Privado</mat-radio-button>
+                              <mat-radio-button value="1">Público</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                          <div class="mb-6">
+                            <h2 class="text-gray-700 font-semibold mb-2">Dispositivo</h2>
+                            <mat-radio-group color="primary" formControlName="tipoDispositivo">
+                              <mat-radio-button value="1">Control</mat-radio-button>
+                              <mat-radio-button value="0">Celular</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                          <div class="mb-6">
+                            <h2 class="text-gray-700 font-semibold mb-2">Escrutinio</h2>
+                            <mat-radio-group color="primary" formControlName="tipoVotacion">
+                              <mat-radio-button value="1">Usuarios</mat-radio-button>
+                              <mat-radio-button value="0">Tickets</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                          <div class="mb-6">
+                            <h2 class="text-gray-700 font-semibold mb-2">Imprimir escarapela</h2>
+                            <mat-radio-group color="primary" formControlName="escarapela">
+                              <mat-radio-button value="1">Sí</mat-radio-button>
+                              <mat-radio-button value="0">No</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                        </div>
+                        <div class="mt-4">
+                          <h2 class="text-gray-700 font-semibold mb-2">Quórum</h2>
+                          <div class="mb-6">
+                            <div class="flex flex-row">
+                              <mat-checkbox color="primary" formControlName="nominal">Nominal</mat-checkbox>
+                              <mat-checkbox color="primary" formControlName="coefficient">Coeficiente</mat-checkbox>
+                              <mat-checkbox color="primary" formControlName="units">Unidades</mat-checkbox>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mt-4">
+                          <h2 class="text-gray-700 font-semibold mb-2">Información adicional del usuario</h2>
+                          <mat-radio-group color="primary" formControlName="infoCliente">
+                            <mat-radio-button (change)="onChange($event)" value="1">Sí</mat-radio-button>
+                            <mat-radio-button (change)="onChange($event)" value="0">No</mat-radio-button>
+                          </mat-radio-group>
+                          <div class="mt-5">
+                            <div [style.display]="shoAnimation ? 'block' : 'none'"
+                              [ngClass]="{'slide-in': form.get('infoCliente')?.value === '1', 'slide-out': form.get('infoCliente')?.value !== '1'}">
+                              <div class="flex flex-col">
+                                <mat-checkbox color="primary" formControlName="phone">Número de teléfono</mat-checkbox>
+                                <mat-checkbox color="primary" formControlName="email">Email</mat-checkbox>
+                              </div>
+                              <app-info-variable [eventId]="eventConfig.event.eventId" [listConfig]="listConfig"></app-info-variable>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="flex justify-end mt-4">
+                          <app-button typeBtn="submit" color="blue" [loading]="statusSave === 'loading'">Guardar</app-button>
+                        </div>
+                      </form>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

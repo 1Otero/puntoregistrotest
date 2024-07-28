@@ -1,0 +1,54 @@
+<div class="bg-white rounded-lg overflow-hidden hover:shadow-xl shadow-lg border p-6 w-full">
+    <div class="flex flex-col">
+        <div class="flex flex-row items-center justify-between border-b py-3">
+            <div class="flex flex-col">
+                <button (click)="onEvent()">
+                    <span class="hover:text-blue-400 hover:underline">{{event.event.name}}</span>
+                </button>
+            </div>
+            <div class="flex flex-row space-x-6">
+                <button (click)="isOpen = !isOpen" cdkOverlayOrigin #menu="cdkOverlayOrigin"
+                    class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="flex flex-col space-y-1 pt-4">
+            <div class="flex flex-row items-center space-x-2">
+                <mat-icon>date_range</mat-icon>
+                <span>{{event.event.dateStartEvent | date : 'short' : 'UTC'}}</span>
+            </div>
+            <div class="flex flex-row items-center space-x-2">
+                <div>
+                    <span class="text-black font-bold text-lg ml-2">#</span>
+                </div>
+                <p class="pt-2 ml-2">{{event.event.codEvent}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="menu" [cdkConnectedOverlayOpen]="isOpen"
+    (overlayOutsideClick)="isOpen = !isOpen">
+    <div class="z-50 my-4 w-full text-base list-none bg-white rounded-lg divide-y divide-gray-100 shadow border">
+        <div class="flex flex-col">
+            <button (click)="onEdit()" class="text-start hover:bg-gray-300 px-12 py-2">
+                Editar
+            </button>
+            <button (click)="onPreregister()" class="text-start hover:bg-gray-300 px-12 py-2">
+                Preregistro
+            </button>
+            <button (click)="onPreregisterUser()" class="text-start hover:bg-gray-300 px-12 py-2">
+                Preregistro usuario
+            </button>
+            <button *ngIf="event.event.status === 1" (click)="onClose()"
+                class="text-start hover:bg-gray-300 px-12 py-2">
+                Cerrar
+            </button>
+            <button *ngIf="event.event.status === 0" (click)="onActive()"
+                class="text-start hover:bg-gray-300 px-12 py-2">
+                Activar
+            </button>
+        </div>
+    </div>
+</ng-template>

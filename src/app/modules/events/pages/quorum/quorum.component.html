@@ -1,0 +1,53 @@
+<app-spinner *ngIf="status === 'loading'"></app-spinner>
+<div class="flex flex-col">
+    <div class="flex flex-row justify-between items-center">
+        <div class="flex flex-row items-center space-x-2">
+            <button (click)="onBakc()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <span class="text-lg font-medium w-full pb-2">Volver</span>
+        </div>
+        <div>
+            <span class="text-lg font-medium">{{eventConfig.event.name}}</span>
+        </div>
+        <div>
+            <span class="text-lg font-medium">{{ currentTime | date: 'hh:mm:ss a' }}</span>
+        </div>
+    </div>
+    <div *ngIf="quorumReading.length !== 0" class="pt-2 font-medium uppercase">
+        ÚLTIMA LECTURA DEL QUÓRUM: {{quorumReading[0].quorumReading.date | date: 'medium'}}
+    </div>
+    <div class="grid grid-cols-1 justify-center gap-6 mt-20">
+        <div class="flex flex-col space-y-2">
+            <p class="text-blue-600 text-8xl font-medium text-center">Quórum</p>
+            <div class="flex items-center justify-center">
+                <button (click)="saveQuorumReading()" class="border px-4 py-2 rounded-2xl bg-blue-500 text-white font-medium">Guardar lectura de quórum</button>
+            </div>
+        </div>
+        <div [ngClass]="{'md:grid-cols-2': eventConfig.configRegistrationPoint.coefficient === 1 && eventConfig.configRegistrationPoint.units === 1}"
+            [ngClass]="{'md:grid-cols-1': eventConfig.configRegistrationPoint.coefficient === 1 && eventConfig.configRegistrationPoint.units === 0}"
+            [ngClass]="{'md:grid-cols-1': eventConfig.configRegistrationPoint.coefficient === 0 && eventConfig.configRegistrationPoint.units === 1}"
+            class="grid gap-6">
+            <!-- Coeficiente -->
+            <div *ngIf="eventConfig.configRegistrationPoint.coefficient === 1"
+                class="flex flex-col items-center justify-center">
+                <span *ngIf="eventConfig.configRegistrationPoint.nominal === 0"
+                    class="text-8xl">{{(quorum.coeficiente/100) | percent: '1.2-3'}}</span>
+                <span *ngIf="eventConfig.configRegistrationPoint.nominal === 1"
+                    class="text-8xl">{{(quorum.coeficiente/100) | percent: '1.2-3'}}</span>
+                <p class="text-blue-600 text-5xl font-medium">Porcentaje</p>
+            </div>
+            <!-- Unidades -->
+            <div *ngIf="eventConfig.configRegistrationPoint.units === 1"
+                class="flex flex-col items-center justify-center">
+                <span class="text-8xl">{{(quorum.totalAccessPointTicket ? quorum.totalAccessPointTicket : 0)}}</span>
+                <p class="text-blue-600 text-5xl font-medium">{{quorum.totalAccessPointTicket === 1 ?
+                    'Unidadad' :
+                    'Unidades'}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="py-10">
+        <app-quorum-reading [quorumReading]="quorumReading"></app-quorum-reading>
+    </div>
+</div>

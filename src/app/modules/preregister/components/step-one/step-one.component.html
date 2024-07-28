@@ -1,0 +1,40 @@
+<div class="flex flex-col items-center px-4 md:px-0">
+    <div class="w-full lg:w-9/12">
+        <div class="bg-white rounded-lg">
+            <form [formGroup]="formData">
+                <div class="mb-4 flex items-center">
+                    <label for="tipoDocumento" class="block w-1/4 text-left mr-4">Tipo de Documento:</label>
+                    <select formControlName="tipoDocumento" id="tipoDocumento"
+                        class="rounded-md border-gray-300 w-3/4 px-4 py-2">
+                        <option value="1">CC - Cédula de ciudadanía</option>
+                        <option value="2">NIT - NIT</option>
+                        <option value="3">CE - Cédula de extranjería</option>
+                    </select>
+                </div>
+                <div class="mb-4 flex items-center">
+                    <label for="numeroDocumento" class="block w-1/4 text-left mr-4">No. Documento:</label>
+                    <input formControlName="numeroDocumento" type="text" id="numeroDocumento"
+                        class="rounded-md border-gray-300 w-3/4 px-4 py-2" autofocus>
+                </div>
+                <div
+                    *ngIf="formData.controls['numeroDocumento'].touched && formData.controls['numeroDocumento'].invalid">
+                    <p *ngIf="formData.controls['numeroDocumento'].hasError('required')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo es obligatorio
+                    </p>
+                    <p *ngIf="formData.controls['numeroDocumento'].hasError('pattern')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Este campo no permite números
+                    </p>
+                </div>
+                <div class="flex justify-end text-right space-x-3">
+                    <button (click)="submitForm()" [disabled]="status === 'loading'"
+                        type="submit"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex disabled:cursor-not-allowed">
+                        <mat-spinner *ngIf="status === 'loading'" diameter="20"></mat-spinner>Consultar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

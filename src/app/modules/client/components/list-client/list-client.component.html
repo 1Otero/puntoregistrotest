@@ -1,0 +1,73 @@
+<div class="overflow-x-auto border rounded-xl">
+    <table matSort (matSortChange)="sortData($event)" class="min-w-full divide-y divide-gray-200">
+        <thead>
+            <tr>
+                <th mat-sort-header="nombre"
+                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Nombre</th>
+                <th mat-sort-header="nit"
+                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Nit</th>
+                <th mat-sort-header="eventos"
+                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Eventos</th>
+                <th
+                    class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Acción</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let client of displayedItems">
+                <td class="px-6 py-4 whitespace-no-wrap">
+                    <a class="hover:text-blue-500 hover:underline"
+                        [href]="'punto-registro-operador/cliente/' + client.url">{{client.name}}</a>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap">{{client.nit}}</td>
+                <td class="px-6 py-4 whitespace-no-wrap"></td>
+                <td class="px-6 py-4 whitespace-no-wrap">
+                    <button (click)="client.isOpen = !client.isOpen" cdkOverlayOrigin #menu="cdkOverlayOrigin">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="menu"
+                        [cdkConnectedOverlayOpen]="client.isOpen ? client.isOpen : false"
+                        (overlayOutsideClick)="client.isOpen = !client.isOpen">
+                        <div
+                            class="z-50 my-4 w-60 text-base list-none bg-white rounded-lg divide-y divide-gray-100 shadow border dark:bg-gray-900 dark:text-white">
+                            <div class="flex flex-col">
+                                <button class="text-start hover:bg-gray-300 px-4 py-2 dark:hover:bg-gray-700">
+                                    Editar
+                                </button>
+                                <button class="text-start hover:bg-gray-300 px-4 py-2 dark:hover:bg-gray-700">
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="flex flex-row justify-between">
+        <div class="grid grid-cols-2 space-x-2 items-center mt-8 px-4">
+            <span>Elementos por página: </span>
+            <mat-select [(value)]="itemsPerPage" (selectionChange)="changePageSize()">
+                <mat-option color="primary" *ngFor="let option of pageSizeOptions" [value]="option">
+                    {{ option }}
+                </mat-option>
+            </mat-select>
+        </div>
+        <div class="flex justify-end items-center mt-8">
+            <button
+                class="bg-transparent hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-l focus:outline-none"
+                (click)="prevPage()" [disabled]="currentPage === 1">
+                Anterior
+            </button>
+            <span class="px-4">Página {{ currentPage }} de {{ totalPages }} - Total: {{ clientsFilter.length }}</span>
+            <button
+                class="bg-transparent hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-r focus:outline-none"
+                (click)="nextPage()" [disabled]="currentPage === totalPages">
+                Siguiente
+            </button>
+        </div>
+    </div>
+</div>

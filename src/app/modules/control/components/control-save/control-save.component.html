@@ -1,0 +1,60 @@
+<div [@fadeInOut]="dialogAnimationState"
+    class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+    <div class="relative w-full max-w-xl mx-auto my-6">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="px-6 py-3 border-b">
+                <label class="text-lg font-medium">Información del control</label>
+                <button (click)="close({
+                    rta: false,
+                    control: control
+                  })" class="absolute top-0 right-0 p-2">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <div class="p-6">
+                <form [formGroup]="form" (ngSubmit)="saveControl()">
+                    <div class="mb-4 flex flex-row space-x-2">
+                        <label for="name" class="block mb-1 font-medium text-gray-700 text-lg">Número: </label>
+                        <label for="name"
+                            class="block mb-1 font-medium text-gray-700 text-lg">{{control.barCode}}</label>
+                    </div>
+                    <div class="mb-4">
+                        <label for="name" class="block mb-1 font-medium text-gray-700">Estado</label>
+                        <mat-radio-group color="primary" formControlName="estado" aria-label="Select an option">
+                            <div class="grid grid-cols-2">
+                                <ng-container *ngFor="let option of controlStatus">
+                                    <mat-radio-button [value]="option.id.toString()">{{option.name}}</mat-radio-button>
+                                </ng-container>
+                            </div>
+                        </mat-radio-group>
+                        <div *ngIf="form.controls.estado.touched && form.controls.estado.invalid">
+                            <p *ngIf="form.controls.estado.hasError('required')"
+                                class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                Este campo es obligatorio
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="name" class="block mb-1 font-medium text-gray-700">Estado físico</label>
+                        <mat-radio-group color="primary" formControlName="estadoFisico" aria-label="Select an option">
+                            <div class="grid grid-cols-2">
+                                <ng-container *ngFor="let option of controlEstadoFisico">
+                                    <mat-radio-button [value]="option.id.toString()">{{option.name}}</mat-radio-button>
+                                </ng-container>
+                            </div>
+                        </mat-radio-group>
+                        <div *ngIf="form.controls.estadoFisico.touched && form.controls.estadoFisico.invalid">
+                            <p *ngIf="form.controls.estadoFisico.hasError('required')"
+                                class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                Este campo es obligatorio
+                            </p>
+                        </div>
+                    </div>
+                    <app-button typeBtn="submit" color="blue" [loading]="status === 'loading'">
+                        Guardar
+                    </app-button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

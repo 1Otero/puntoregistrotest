@@ -1,0 +1,10 @@
+/* Cambia el color de fondo de las flechas */
+.paginator  {
+    background-color: blue;
+    color: white;
+}
+
+/* Cambia el color del texto de las flechas */
+.paginator .mat-paginator-navigation-button span {
+    color: white;
+}

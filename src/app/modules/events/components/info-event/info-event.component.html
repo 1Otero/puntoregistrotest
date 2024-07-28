@@ -1,0 +1,21 @@
+<div class="flex flex-col justify-end px-4 md:px-0">
+    <div class="font-medium text-sm mb-4 text-end">CONFIGURACIÓN</div>
+    <div>
+        <div class="mb-4">
+            <div class="font-medium text-end text-sm">Fecha inicio:</div> 
+            <div class="text-xs text-gray-500 text-end">{{ date | date: 'medium' : 'UTC'}}</div>
+        </div>
+        <div class="mb-4">
+            <div class="font-medium text-end text-sm">Tipo de evento:</div> 
+            <div class="text-xs text-gray-500 text-end">{{ config.isPublic === 1 ? 'Público' : 'Privado' }}</div>
+        </div>
+        <div class="mb-4">
+            <div class="font-medium text-end text-sm">Tipo de dispositivo:</div> 
+            <div class="text-xs text-gray-500 text-end">{{ config.deviceType === 1 ? 'Control' : 'Celular' }}</div>
+        </div>
+        <div>
+            <div class="font-medium text-end text-sm">Tipo de votación:</div> 
+            <div class="text-xs text-gray-500 text-end">{{ config.vottingType === 1 ? 'Usuario' : 'Ticket' }}</div>
+        </div>
+    </div>
+</div>

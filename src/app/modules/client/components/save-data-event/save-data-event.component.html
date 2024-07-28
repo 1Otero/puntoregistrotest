@@ -1,0 +1,63 @@
+<div [@fadeInOut]="dialogAnimationState"
+    class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+    <div class="relative w-full max-w-xl mx-auto my-6">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="px-6 py-3 border-b">
+                <label class="text-lg font-medium">{{message}}</label>
+                <button (click)="close()" class="absolute top-0 right-0 p-2">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <div class="p-6">
+                <form [formGroup]="form" (ngSubmit)="saveEvent()">
+                    <div class="mb-4">
+                        <label for="name" class="block mb-1 font-medium text-gray-700">Nombre del evento</label>
+                        <input formControlName="name" type="text" required minlength="1" maxlength="100"
+                            class="w-full px-3 py-2 text-gray-700 border rounded-lg">
+                        <div *ngIf="form.controls.name.touched && form.controls.name.invalid">
+                            <p *ngIf="form.controls.name.hasError('required')"
+                                class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                Este campo es obligatorio
+                            </p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 md:space-x-2">
+                        <div class="mb-4">
+                            <label for="name" class="block mb-1 font-medium text-gray-700">Fecha y hora de citación</label>
+                            <input type="datetime-local" formControlName="dateStartEvent" required maxlength="100"
+                                class="w-full px-3 py-2 text-gray-700 border rounded-lg">
+                            <div *ngIf="form.controls.dateStartEvent.touched && form.controls.dateStartEvent.invalid">
+                                <p *ngIf="form.controls.dateStartEvent.hasError('required')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    Este campo es obligatorio
+                                </p>
+                                <p *ngIf="form.controls.dateStartEvent.hasError('dateInvalid')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    La fecha debe ser posterior o igual a la de hoy
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="name" class="block mb-1 font-medium text-gray-700">Fecha y hora de ingreso</label>
+                            <input type="datetime-local" formControlName="dateEndEvent" required maxlength="100"
+                                class="w-full px-3 py-2 text-gray-700 border rounded-lg">
+                            <div *ngIf="form.controls.dateEndEvent.touched && form.controls.dateEndEvent.invalid">
+                                <p *ngIf="form.controls.dateEndEvent.hasError('required')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    Este campo es obligatorio
+                                </p>
+                                <p *ngIf="form.controls.dateEndEvent.hasError('dateInvalid')"
+                                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                    La fecha debe ser posterior o igual a la de hoy
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <app-button typeBtn="submit" color="blue" [loading]="status === 'loading'">
+                        {{messageButton}} evento
+                    </app-button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
